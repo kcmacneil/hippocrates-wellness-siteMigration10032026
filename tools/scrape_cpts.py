@@ -69,15 +69,14 @@ def strip_popups(s):
         s = s.replace(div, '')
 
 def _static_form(m):
-    """Keep an Elementor Pro form's markup for visual parity but make it inert:
-    drop hidden fields and field names, and send the submit to /contact-us/."""
+    """Keep an Elementor Pro form's markup; NavScript submits it to /api/contact.
+    WP-only hidden fields (post_id, form_id, ...) and the admin-ajax action are dropped."""
     f = re.sub(r'^<form\b[^>]*>', lambda t: re.sub(r'\s(method|action)="[^"]*"', '', t.group(0))
-               .replace('<form', '<form method="get" action="/contact-us/"', 1), m.group(0))
-    f = re.sub(r'<input\b[^>]*type="hidden"[^>]*>', '', f)
-    return re.sub(r'(<(?:input|select|textarea)\b[^>]*?)\sname="[^"]*"', r'\1', f)
+               .replace('<form', '<form method="post"', 1), m.group(0))
+    return re.sub(r'<input\b[^>]*type="hidden"[^>]*>', '', f)
 
 def strip_forms_keep_elementor(s):
-    """strip_forms(), except Elementor Pro forms (not CF7) are kept, inert."""
+    """strip_forms(), except Elementor Pro forms (not CF7) are kept."""
     kept = []
     def stash(m):
         kept.append(_static_form(m))
