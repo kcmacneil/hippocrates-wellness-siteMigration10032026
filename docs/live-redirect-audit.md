@@ -7,9 +7,10 @@ https://hippocrateswellness.org/ with a trailing slash, without following redire
 - **Added** to `content/redirects.json`: 153 off-site podcast redirects (podbean). These docs are
   still generated (same as `/home`, `/home-2` which also have docs) but the Next redirect wins;
   redirected paths are left out of `sitemap.xml`.
-- **Not added**: 8 on-site redirects whose target page does not exist in this build (the live
-  site renamed/moved these pages after the backup). Adding them would turn a working stale page
-  into a 404; they need the target pages migrated first.
+- **Added** 8 on-site redirects for pages the live site renamed/moved after the backup. Their
+  targets were scraped from live into new docs by `tools/scrape_new_pages.py` (old docs untouched).
+- The 8 Redirection-plugin rules (`/resilience` → `/integrative-health-education`, etc.) point at
+  pages that **404 on the live site too** (not in the live sitemap), so they could not be migrated.
 
 Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-md/`, `/group-campus-tour/`, `/october-2024/`; persistent 500 `/doctor-days-fall/`.
 
@@ -19,10 +20,10 @@ Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-
 | `/a-journey-towards-health-and-wellness-with-shane-sterling/` | https://hippocrates.podbean.com/e/a-journey-towards-health-and-wellness/ | 301 | **added** |  |
 | `/a-journey-towards-sustainable-living-with-will-and-madeline-tuttle/` | https://hippocrates.podbean.com/e/a-journey-towards-sustainable-living-with-will-and-madeline-taro/ | 301 | **added** |  |
 | `/aaron-scanlan/` | https://hippocrates.podbean.com/e/aaron-scanlan/ | 301 | **added** |  |
-| `/accommodation-categories/` | https://hippocrateswellness.org/the-resort/accommodation-categories/ | 301 | not added — target page missing from build |  |
-| `/accommodation-categories/economy/` | https://hippocrateswellness.org/the-resort/accommodation-categories/economy/ | 301 | not added — target page missing from build |  |
-| `/accommodation-categories/executive-suites/` | https://hippocrateswellness.org/the-resort/accommodation-categories/executive-suites/ | 301 | not added — target page missing from build |  |
-| `/accommodation-categories/royal-palm-villas/` | https://hippocrateswellness.org/the-resort/accommodation-categories/royal-palm-villas/ | 301 | not added — target page missing from build |  |
+| `/accommodation-categories/` | https://hippocrateswellness.org/the-resort/accommodation-categories/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
+| `/accommodation-categories/economy/` | https://hippocrateswellness.org/the-resort/accommodation-categories/economy/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
+| `/accommodation-categories/executive-suites/` | https://hippocrateswellness.org/the-resort/accommodation-categories/executive-suites/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
+| `/accommodation-categories/royal-palm-villas/` | https://hippocrateswellness.org/the-resort/accommodation-categories/royal-palm-villas/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
 | `/acuity/` | /cognitive-wellness-education | 301 | already present |  |
 | `/aklya/` | https://hippocrates.podbean.com/e/aklya/ | 301 | **added** |  |
 | `/alan-and-anthony/` | https://www.podbean.com/eu/pb-2uhbb-eb7eb7 | 301 | **added** |  |
@@ -37,7 +38,7 @@ Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-
 | `/brian-clement-interviews-dr-rau-from-switzerland/` | https://hippocrates.podbean.com/e/brian-clement-interviews-dr-rau-from-switzerland/ | 301 | **added** |  |
 | `/brian-clement-with-green-smoothie-girl/` | https://hippocrates.podbean.com/e/brian-clement-with-green-smoothie-girl/ | 301 | **added** |  |
 | `/brianna-ladapo-healing-through-trauma/` | https://hippocrates.podbean.com/e/healing-through-trauma-a-journey-of-transformation/ | 301 | **added** |  |
-| `/building-multigenerational-generational-health-2/` | https://hippocrateswellness.org/building-multigenerational-generational-health-october-4/ | 301 | not added — target page missing from build |  |
+| `/building-multigenerational-generational-health-2/` | https://hippocrateswellness.org/building-multigenerational-generational-health-october-4/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
 | `/cadence/` | /cardiovascular-wellness-education | 301 | already present |  |
 | `/cancer/` | https://hippocrates.podbean.com/e/cancer-interview/ | 301 | **added** |  |
 | `/cancer-and-psychoneuroimmunology/` | https://hippocrates.podbean.com/mf/play/9rxn2p/Hippocrates_for_5-2_Dr_Jan_W_FULL.mp3 | 301 | **added** |  |
@@ -94,7 +95,7 @@ Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-
 | `/healing-journeys-a-bridal-shop-owners-path-to-wellness/` | https://hippocrates.podbean.com/e/healing-journeys-a-bridal-shop-owners-path-to-wellness/ | 301 | **added** |  |
 | `/healing-the-unseen-simons-journey-from-appendix-burst-to-cancer-warrior/` | https://hippocrates.podbean.com/e/healing-the-unseen-simons-journey-from-appendix-burst-to-cancer-warrior/ | 301 | **added** |  |
 | `/healing-with-nature-a-legacy-of-cancer-reversal/` | https://hippocrates.podbean.com/e/healing-with-nature-a-legacy-of-cancer-reversal/ | 301 | **added** |  |
-| `/health-challenges/weight-loss-2/` | https://hippocrateswellness.org/health-challenges/weight-loss/ | 301 | not added — target page missing from build |  |
+| `/health-challenges/weight-loss-2/` | https://hippocrateswellness.org/health-challenges/weight-loss/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
 | `/hennings-pt-1/` | https://hippocrates.podbean.com/e/henning-episode-1/ | 301 | **added** |  |
 | `/hennings-pt-2/` | https://hippocrates.podbean.com/e/hennings-episode-2/ | 301 | **added** |  |
 | `/hepatitis-c-and-liver-cancer/` | https://hippocrates.podbean.com/e/hepatitis-c-and-liver-cancer/ | 301 | **added** |  |
@@ -155,7 +156,7 @@ Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-
 | `/soleara-and-adaptogenic-herbs/` | https://hippocrates.podbean.com/e/soleara-and-adaptogenic-herbs/ | 301 | **added** |  |
 | `/spiritual-and-physical-wellness-journey-with-pastor-mercy-jones/` | https://hippocrates.podbean.com/e/spiritual-and-physical-wellness-journey-with-pastor-mercy-jones/ | 301 | **added** |  |
 | `/stress-reduction/` | https://hippocrates.podbean.com/e/stress-reduction-1551808668/ | 301 | **added** |  |
-| `/subscription-thank-you-page/` | https://hippocrateswellness.org/thank-you/ | 301 | not added — target page missing from build |  |
+| `/subscription-thank-you-page/` | https://hippocrateswellness.org/thank-you/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
 | `/tasha-chen/` | https://hippocrates.podbean.com/e/tasha-chen/ | 301 | **added** |  |
 | `/testimonial-with-mark/` | https://hippocrates.podbean.com/e/testimonial-with-mark/ | 301 | **added** |  |
 | `/the-dick-robinson-show-part-one/` | https://hippocrates.podbean.com/e/the-dick-robinson-show-part-one/ | 301 | **added** |  |
@@ -166,7 +167,7 @@ Non-redirect errors on live: 404 `/an-educational-lecture-with-dr-joshua-helman-
 | `/the-influential-power-of-sound-frequencies-on-our-health-with-martha-prova/` | https://hippocrates.podbean.com/e/a-journey-to-wellness-with-hippocrates/ | 301 | **added** |  |
 | `/the-power-of-fasting-transforming-health-and-healing/` | https://hippocrates.podbean.com/e/the-power-of-fasting-transforming-health-and-healing/ | 301 | **added** |  |
 | `/the-radio-revolution-robin-quivers-on-life-with-howard-stern/` | https://hippocrates.podbean.com/e/the-radio-revolution-robin-quivers-on-life-with-howard-stern/ | 301 | **added** |  |
-| `/the-resort-2/` | https://hippocrateswellness.org/the-resort/ | 301 | not added — target page missing from build |  |
+| `/the-resort-2/` | https://hippocrateswellness.org/the-resort/ | 301 | **added** — target page migrated from live (`tools/scrape_new_pages.py`) |  |
 | `/the-yoga-show/` | https://hippocrates.podbean.com/e/the-yoga-show/ | 301 | **added** |  |
 | `/torsten/` | https://hippocrates.podbean.com/e/torsten/ | 301 | **added** |  |
 | `/transformative-wellness-with-roxane/` | https://hippocrates.podbean.com/e/transformative-wellness-roxanes-journey-from-engineer-to-health-advocate/ | 301 | **added** |  |
