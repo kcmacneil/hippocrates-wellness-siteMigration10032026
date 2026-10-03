@@ -1,0 +1,244 @@
+/* Hippocrates Wellness — brand palette lifted from the site's Elementor kit */
+:root {
+  --color-primary: #c08a4a;
+  --color-secondary: #4a7360;
+  --color-text: #33453b;
+  --color-bg: #faf8f3;
+  --color-bg-alt: #efe9dd;
+  --color-surface: #f6f3ec;
+  --color-dark: #1b3327;
+  --color-darker: #0f1d17;
+  --color-muted: #5c6b60;
+  --color-accent: #a9702f;
+  --max-width: 1140px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), "Hanken Grotesk", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), "Newsreader", Georgia, serif;
+  color: var(--color-dark);
+  line-height: 1.25;
+  margin: 1.4em 0 0.6em;
+}
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.3rem; }
+
+a { color: var(--color-secondary); text-decoration: none; }
+a:hover { color: var(--color-accent); text-decoration: underline; }
+
+img { max-width: 100%; height: auto; }
+
+main { min-height: 60vh; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  overflow: hidden; white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--color-darker);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1rem;
+  flex-wrap: wrap;
+}
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.site-logo img { height: 44px; width: auto; }
+.site-name {
+  font-family: var(--font-serif), serif;
+  color: #fff;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.main-nav { margin-left: auto; }
+.main-nav > ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+.main-nav li { position: relative; }
+.main-nav a {
+  display: block;
+  padding: 0.55rem 0.8rem;
+  color: #e9e4da;
+  font-size: 0.95rem;
+  border-radius: 4px;
+}
+.main-nav a:hover { background: var(--color-dark); color: #fff; text-decoration: none; }
+.main-nav .sub-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: var(--color-dark);
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 50;
+}
+.main-nav li:hover > .sub-menu,
+.main-nav li:focus-within > .sub-menu { display: block; }
+.main-nav .sub-menu a { padding: 0.45rem 1rem; }
+
+@media (max-width: 800px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .main-nav { margin-left: 0; width: 100%; }
+  .main-nav > ul { flex-direction: column; }
+  .main-nav .sub-menu { position: static; box-shadow: none; padding-left: 1rem; }
+  .main-nav li:hover > .sub-menu { display: block; }
+}
+
+/* ---------- Content ---------- */
+main > article,
+.wp-content,
+.post-index {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.2rem 3rem;
+}
+.page-header h1 { margin-top: 0.8em; }
+.post-meta { color: var(--color-muted); font-size: 0.9rem; }
+.featured-image { border-radius: 8px; margin: 1rem 0; }
+
+.wp-content figure { margin: 1rem 0; }
+.wp-content a[href^="#"] { color: var(--color-primary); }
+.wp-content svg { fill: currentColor; max-width: 1em; height: auto; }
+.wp-content a > svg { margin-right: 0.4em; }
+.wp-content iframe { max-width: 100%; }
+
+/* ---------- Post index ---------- */
+.post-index {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.post-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-bg-alt);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.post-card img { border-radius: 8px; }
+.post-card h2 { font-size: 1.15rem; margin: 0.6rem 0 0.3rem; }
+.post-card time { color: var(--color-muted); font-size: 0.85rem; }
+
+/* ---------- Forms ---------- */
+.contact-form {
+  max-width: 560px;
+  margin: 2rem auto;
+  background: var(--color-surface);
+  padding: 1.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-bg-alt);
+}
+.contact-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.9rem;
+  color: var(--color-dark);
+}
+.contact-form input,
+.contact-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #ccc4b2;
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+}
+.contact-form button {
+  background: var(--color-primary);
+  color: #fff;
+  border: 0;
+  padding: 0.7rem 1.6rem;
+  font: inherit;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.contact-form button:hover { background: var(--color-accent); }
+.contact-form button:disabled { opacity: 0.6; cursor: default; }
+.form-success, .form-error {
+  max-width: 560px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #e7f2e9;
+  color: var(--color-dark);
+}
+.form-error { background: #f6e3e0; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--color-darker);
+  color: #cfc9bb;
+  margin-top: 3rem;
+}
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding: 3rem 1.2rem;
+}
+.footer-brand {
+  font-family: var(--font-serif), serif;
+  color: #fff;
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+.footer-heading {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  margin-top: 0;
+}
+.footer-col ul { list-style: none; margin: 0; padding: 0; }
+.footer-col li { margin-bottom: 0.4rem; }
+.site-footer a { color: #e9e4da; }
+.site-footer a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid var(--color-dark);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+.not-found { max-width: 700px; margin: 4rem auto; text-align: center; }
