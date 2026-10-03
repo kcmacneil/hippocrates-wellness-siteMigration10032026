@@ -44,6 +44,17 @@ def strip_forms(s):
     s = re.sub(r'<div class="wpcf7[^"]*"[^>]*>.*?</div>\s*</div>', '', s, flags=re.S)
     return re.sub(r'<form\b[^>]*>.*?</form>', '', s, flags=re.S)
 
+def cf_decode(hexstr):
+    key = int(hexstr[:2], 16)
+    return ''.join(chr(int(hexstr[i:i + 2], 16) ^ key) for i in range(2, len(hexstr), 2))
+
+def decode_cf_emails(s):
+    """Undo Cloudflare email obfuscation statically, as its email-decode.js does."""
+    s = re.sub(r'<(a|span)\b[^>]*class="__cf_email__"[^>]*data-cfemail="([0-9a-f]+)"[^>]*>.*?</\1>',
+               lambda m: cf_decode(m.group(2)), s, flags=re.S)
+    return re.sub(r'href="/cdn-cgi/l/email-protection#([0-9a-f]+)"',
+                  lambda m: 'href="mailto:%s"' % cf_decode(m.group(1)), s)
+
 def mirror(rel):
     """Download a root-relative asset to public/ if missing. Returns ok."""
     rel = urllib.parse.unquote(rel.split('?')[0].split('#')[0])
@@ -101,7 +112,7 @@ def scrape(slug):
         m = re.search(r'/wp-content/uploads/elementor/css/(post-\d+\.css)', href)
         if m and m.group(1) not in GLOBAL_CSS:
             css.append('/wp-content/uploads/elementor/css/' + m.group(1))
-    page = minify(rewrite_actions(strip_forms(clean(block))))
+    page = minify(decode_cf_emails(rewrite_actions(strip_forms(clean(block)))))
     return slug, {'content_live': page, 'template_id': tpl, 'css_live': css}, None
 
 def main():
