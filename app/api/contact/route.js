@@ -27,8 +27,8 @@ export async function POST(request) {
   const message = typeof data.message === 'string' ? data.message.trim().slice(0, 5000) : '';
   const subject = typeof data.subject === 'string' ? data.subject.trim().slice(0, 300) : '';
 
-  if (!name || !email || !message) {
-    return NextResponse.json({ ok: false, error: 'Name, email and message are required.' }, { status: 422 });
+  if (!name || !email) {
+    return NextResponse.json({ ok: false, error: 'Name and email are required.' }, { status: 422 });
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ ok: false, error: 'Please provide a valid email address.' }, { status: 422 });
