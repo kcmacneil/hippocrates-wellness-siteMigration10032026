@@ -26,11 +26,13 @@ def rel(url):
     url = url.replace(SITE, '')
     return url
 
+SHORTCODE_RE = re.compile(r'\[(?:/?)[a-zA-Z_][\w-]*(?:\s+[^\]]*)?\]')
 def clean_html(s):
     if not s: return ''
     s = s.replace(SITE + '/wp-content/', '/wp-content/')
     s = s.replace('https://hippocrateswellness.org/', '/')
     s = s.replace('http://hippocrateswellness.org/', '/')
+    s = SHORTCODE_RE.sub('', s)
     return s
 
 # taxonomy terms per post

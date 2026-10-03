@@ -21,7 +21,6 @@ html, body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans), "Hanken Grotesk", system-ui, sans-serif;
-  font-size: 17px;
   line-height: 1.65;
 }
 
@@ -121,22 +120,79 @@ main { min-height: 60vh; }
 }
 
 /* ---------- Content ---------- */
-main > article,
-.wp-content,
+main > article:not(.live),
+article:not(.live) .wp-content,
+main > .wp-content,
 .post-index {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 1rem 1.2rem 3rem;
 }
+/* Live Elementor pages manage their own full-width layout. */
+article.live { padding: 0; }
+/* Elementor sets scroll-triggered animations via JS we don't ship — reveal them. */
+.elementor-invisible { visibility: visible !important; opacity: 1 !important; }
+
+/* Header nav: Elementor Pro reveals sub-menus via JS we don't ship — do it in CSS. */
+.elementor-nav-menu--main { flex-wrap: nowrap !important; }
+.elementor-nav-menu .menu-item { position: relative; white-space: nowrap; }
+.elementor-nav-menu .menu-item-has-children:hover > .sub-menu,
+.elementor-nav-menu .menu-item-has-children:focus-within > .sub-menu,
+.elementor-nav-menu .menu-item-has-children.submenu-open > .sub-menu {
+  display: block !important;
+}
+.elementor-nav-menu .sub-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 240px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(15, 29, 23, 0.14);
+  padding: 0.5rem 0;
+}
+.elementor-nav-menu .sub-menu .sub-menu { top: 0; left: 100%; }
+.elementor-nav-menu .sub-menu a {
+  display: block;
+  padding: 0.55rem 1.4rem;
+  color: #16241d;
+}
+.elementor-nav-menu .sub-menu a:hover { background: #f4f1e9; }
+
+/* Elementor "n-menu" widget: dropdowns are toggled by its JS — reveal on hover. */
+.e-n-menu-item { position: relative; }
+.e-n-menu-item:hover > .e-n-menu-content,
+.e-n-menu-item:focus-within > .e-n-menu-content,
+.e-n-menu-item.submenu-open > .e-n-menu-content {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.e-n-menu-content {
+  position: absolute;
+  top: 100%;
+  left: var(--stretch-left, 0);
+  width: var(--stretch-width, max-content);
+  z-index: 1000;
+}
+@media (max-width: 1024px) {
+  /* Burger toggle: JS-free fallback shows the menu column when opened. */
+  .e-n-menu-toggle.menu-open ~ .e-n-menu-wrapper,
+  .e-n-menu-wrapper.menu-open { display: block !important; }
+  .e-n-menu-item .e-n-menu-content { position: static; box-shadow: none; }
+}
+article.live .wp-content { max-width: none; margin: 0; padding: 0; }
+main > .wp-content:has(> .elementor) { max-width: none; margin: 0; padding: 0; }
 .page-header h1 { margin-top: 0.8em; }
 .post-meta { color: var(--color-muted); font-size: 0.9rem; }
 .featured-image { border-radius: 8px; margin: 1rem 0; }
 
-.wp-content figure { margin: 1rem 0; }
-.wp-content a[href^="#"] { color: var(--color-primary); }
-.wp-content svg { fill: currentColor; max-width: 1em; height: auto; }
-.wp-content a > svg { margin-right: 0.4em; }
-.wp-content iframe { max-width: 100%; }
+article:not(.live) .wp-content figure { margin: 1rem 0; }
+article:not(.live) .wp-content a[href^="#"] { color: var(--color-primary); }
+article:not(.live) .wp-content svg { fill: currentColor; max-width: 1em; height: auto; }
+article:not(.live) .wp-content a > svg { margin-right: 0.4em; }
+article:not(.live) .wp-content iframe { max-width: 100%; }
 
 /* ---------- Post index ---------- */
 .post-index {
@@ -242,3 +298,54 @@ main > article,
 }
 
 .not-found { max-width: 700px; margin: 4rem auto; text-align: center; }
+
+/* n-menu: keep titles on one row; reveal the inner container Elementor JS marks .e-active. */
+.e-n-menu-heading { flex-wrap: nowrap !important; }
+.e-n-menu-item:hover > .e-n-menu-content > .e-con,
+.e-n-menu-item:focus-within > .e-n-menu-content > .e-con,
+.e-n-menu-item.submenu-open > .e-n-menu-content > .e-con { display: flex !important; }
+.e-n-menu-content > .e-con { box-shadow: 0 12px 30px rgba(15, 29, 23, 0.14); }
+@media (max-width: 1024px) {
+  .elementor-widget-n-menu .e-n-menu[data-layout=dropdown] .e-n-menu-wrapper {
+    left: auto; right: 0; width: min(100vw, 380px); background: #fff;
+  }
+  .e-n-menu-item:hover > .e-n-menu-content > .e-con { display: none !important; }
+  .e-n-menu-item.submenu-open > .e-n-menu-content > .e-con { display: flex !important; }
+  .e-n-menu-content { width: 100%; }
+}
+
+/* Elementor popups (mobile menu) rendered as a static slide-in dialog. */
+.hw-popup[hidden] { display: none !important; }
+.hw-popup {
+  position: fixed; inset: 0; z-index: 2147483647;
+  background: rgba(15, 29, 23, 0.55);
+}
+.hw-popup-body {
+  position: absolute; inset: 0; overflow-y: auto; background: #0B1F22;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hw-popup .elementor-nav-menu .sub-menu {
+  position: static; display: none; background: transparent; box-shadow: none; min-width: 0;
+}
+.hw-popup .elementor-nav-menu .menu-item-has-children:hover > .sub-menu { display: none !important; }
+.hw-popup .elementor-nav-menu .menu-item-has-children.submenu-open > .sub-menu { display: block !important; }
+.hw-popup .elementor-nav-menu .sub-menu a { color: #fff; }
+.hw-popup .elementor-nav-menu .sub-menu a:hover { background: transparent; opacity: 0.8; }
+.hw-popup-body .elementor-location-popup { display: block !important; }
+.hw-popup-close {
+  position: absolute; top: 12px; right: 16px; z-index: 2;
+  width: 36px; height: 36px; border: 0; background: transparent;
+  font-size: 40px; line-height: 1; color: #fff; cursor: pointer;
+}
+body.hw-popup-open { overflow: hidden; }
+.hw-popup .hw-popup-close {
+  background: transparent !important; border: 0 !important; box-shadow: none !important;
+  padding: 0 !important; font-size: 40px !important; color: #fff !important;
+}
+.hw-popup .elementor-nav-menu .menu-item-has-children > a::after {
+  content: ""; display: inline-block; width: 0.45em; height: 0.45em; margin-left: 0.6em;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-0.2em) rotate(45deg);
+}
+.hw-popup .elementor-nav-menu .menu-item { white-space: normal; }
+.hw-popup .elementor-nav-menu .sub-menu a { font-size: 0.85em; padding: 0.45rem 1.5rem; text-align: center; }
