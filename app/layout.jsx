@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { SiteChromeHeader, SiteChromeFooter } from '../components/Chrome';
+import { SiteChromeHeader, SiteChromeFooter, SitePopups } from '../components/Chrome';
 import NavScript from '../components/NavScript';
 import { Hanken_Grotesk, Newsreader } from 'next/font/google';
 
@@ -70,6 +70,7 @@ export default function RootLayout({ children }) {
         <SiteChromeHeader />
         <main>{children}</main>
         <SiteChromeFooter />
+        <SitePopups />
         <NavScript />
       </body>
     </html>
