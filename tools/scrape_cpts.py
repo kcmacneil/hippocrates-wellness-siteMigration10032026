@@ -68,6 +68,24 @@ def strip_popups(s):
             return s
         s = s.replace(div, '')
 
+def _static_form(m):
+    """Keep an Elementor Pro form's markup for visual parity but make it inert:
+    drop hidden fields and field names, and send the submit to /contact-us/."""
+    f = re.sub(r'^<form\b[^>]*>', lambda t: re.sub(r'\s(method|action)="[^"]*"', '', t.group(0))
+               .replace('<form', '<form method="get" action="/contact-us/"', 1), m.group(0))
+    f = re.sub(r'<input\b[^>]*type="hidden"[^>]*>', '', f)
+    return re.sub(r'(<(?:input|select|textarea)\b[^>]*?)\sname="[^"]*"', r'\1', f)
+
+def strip_forms_keep_elementor(s):
+    """strip_forms(), except Elementor Pro forms (not CF7) are kept, inert."""
+    kept = []
+    def stash(m):
+        kept.append(_static_form(m))
+        return f'@@HWFORM{len(kept) - 1}@@'
+    s = re.sub(r'<form\b[^>]*class="elementor-form"[^>]*>.*?</form>', stash, s, flags=re.S)
+    s = strip_forms(s)
+    return re.sub(r'@@HWFORM(\d+)@@', lambda m: kept[int(m.group(1))], s)
+
 def extract_block(html):
     """Return (block_html, template_id, kind) or (None, None, reason)."""
     for t in TEMPLATE_TYPES:
@@ -131,7 +149,14 @@ def scrape(path):
             # standalone landing page: none of the site-wide CSS applies, so
             # carry over every stylesheet it links (off-site ones stay absolute)
             css.append(href.split('?')[0].replace(SITE, '') if SITE in href else href)
-    page = minify(decode_cf_emails(rewrite_actions(strip_forms(clean(block)))))
+    # Per-page dynamic CSS (e.g. featured-image section backgrounds) that Elementor
+    # inlines in <head> instead of the post-*.css files.
+    dyn = re.search(r'<style\b[^>]*id="elementor-frontend-inline-css"[^>]*>(.*?)</style>', html, flags=re.S)
+    if dyn:
+        rules = re.sub(r'/\*#\s*sourceURL=[^*]*\*/', '', dyn.group(1)).strip()
+        if rules:
+            block = f'<style>{rules}</style>{block}'
+    page = minify(decode_cf_emails(rewrite_actions(strip_forms_keep_elementor(clean(block)))))
     mirror_media(page)
     body = re.search(r'<body[^>]*class="[^"]*\b(?:postid|page-id)-(\d+)', html)
     res = {'content_live': page, 'template_id': tpl, 'css_live': list(dict.fromkeys(css)),
@@ -140,19 +165,20 @@ def scrape(path):
         res['live_redirect'] = final.replace(SITE, '')
     return path, res, None
 
-def missing_docs(only=None):
+def missing_docs(only=None, force=False):
     by_path = collections.defaultdict(list)
     for col in COLLECTIONS:
         d = os.path.join(CONTENT, col)
         for f in sorted(os.listdir(d)):
             fp = os.path.join(d, f)
             doc = json.load(open(fp, encoding='utf-8'))
-            if not doc.get('content_live') and (not only or doc['path'] in only):
+            if (force or not doc.get('content_live')) and (not only or doc['path'] in only):
                 by_path[doc['path']].append((col, fp))
     return by_path
 
 def main():
-    by_path = missing_docs(set(sys.argv[1:]))
+    force = '--force' in sys.argv  # re-scrape the given paths even if already live
+    by_path = missing_docs({a for a in sys.argv[1:] if a != '--force'}, force)
     print('urls:', len(by_path), 'docs:', sum(map(len, by_path.values())), flush=True)
     stats = collections.defaultdict(lambda: {'ok': 0, 'failed': 0})
     failures, done = [], 0
