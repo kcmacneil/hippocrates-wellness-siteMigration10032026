@@ -13,8 +13,9 @@ preserved exactly, verified against the live sitemap index
 | `/home`, `/home-2` | `/` | 301 redirect (was already an alias) |
 | `/<slug>/` (post/podcast/recipe/magazine/resort/journey/expert/newsletter) | `/<slug>/` | Preserved |
 | `/<parent>/<child>/` (hierarchical pages) | same | Preserved |
-| `/blog/` | `/blog/` | Preserved + appended post index (was an Elementor posts widget) |
-| `/podcast/` | `/podcast/` | Preserved + appended podcast index |
+| `/blog/` | `/learning-centre/blog/` | 301 (matches live-site redirect) — post index appended to page content |
+| `/podcast/` | `/learning-centre/podcast/` | 301 (matches live-site redirect) — podcast index appended |
+| `/healing-our-world-magazine/` | `/learning-centre/healing-our-world-magazine/` | 301 (matches live-site redirect) |
 | `/magazine/` | `/magazine/` | Rebuilt as archive index (was a CPT archive) |
 | `/meal-plans-recipes/` | `/meal-plans-recipes/` | Rebuilt as archive index |
 | `/wp-content/uploads/...` | `/wp-content/uploads/...` | Media URLs preserved (served from `public/`) |
