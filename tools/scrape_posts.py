@@ -77,8 +77,20 @@ def scrape(slug):
     if not html:
         return slug, None, err
     block = extract_div(html, 'data-elementor-type="single-post"')
-    if not block:
-        return slug, None, 'no single-post template'
+    tpl = None
+    if block:
+        tpl = re.search(r'data-elementor-id="(\d+)"', block).group(1)
+    else:
+        # A few posts are excluded from the template and render bare content
+        # between the header and footer; mirror that as-is.
+        header = extract_div(html, 'data-elementor-type="header"')
+        foot = html.find('data-elementor-type="footer"')
+        if header and foot > 0:
+            seg = html[html.find(header) + len(header):html.rfind('<', 0, foot)].strip()
+            if seg.startswith('<p') or seg.startswith('<h'):
+                block = f'<div class="hw-bare-post">{seg}</div>'
+        if not block:
+            return slug, None, 'no single-post template'
     links = re.findall(r"<link[^>]+rel=['\"]stylesheet['\"][^>]+href=['\"]([^'\"]+)['\"]", html)
     css = []
     for href in links:
@@ -89,7 +101,6 @@ def scrape(slug):
         m = re.search(r'/wp-content/uploads/elementor/css/(post-\d+\.css)', href)
         if m and m.group(1) not in GLOBAL_CSS:
             css.append('/wp-content/uploads/elementor/css/' + m.group(1))
-    tpl = re.search(r'data-elementor-id="(\d+)"', block).group(1)
     page = minify(rewrite_actions(strip_forms(clean(block))))
     return slug, {'content_live': page, 'template_id': tpl, 'css_live': css}, None
 
