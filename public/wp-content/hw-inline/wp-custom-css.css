@@ -1,0 +1,186 @@
+/* Button Style Being*/
+.btn-01 a {
+    border: none;
+    position: relative;
+    overflow: hidden;    
+    text-align: center;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+    transition: background .3s ease, color .3s ease;
+}
+.btn-01 .elementor-button-icon{
+	  position: absolute;
+    right: 18px;
+    opacity: 0;
+    margin-top: 2px;    
+	  display: inline-block;
+    transform: translate(0, 1px);
+    transition: transform .3s ease;
+    margin-left: .5rem;
+}
+.btn-01 .elementor-button-text {
+-webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.btn-01 a:hover .elementor-button-icon {
+    opacity: 1;
+	  transform: translate(5px, 1px);
+}
+.btn-01 a:hover .elementor-button-text{
+	transform: translateX(-10px);
+}
+
+
+/* Button Style End */
+
+.podcast_sec .e-loop-item .elementor-inner-section .elementor-column .elementor-widget-wrap {
+    background-image: url(/wp-content/uploads/2025/04/sound-wave.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+span.count {
+    position: absolute;
+    color: #fff;
+/*     top: -2px; */
+    font-size: 40px;
+    left: 32%;
+    border: 5px solid;
+    width: 110px;
+    height: 110px;
+    text-align: center;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 50%;
+    background: rgba(11, 32, 35, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer#site-footer {
+    display: none;
+}
+.wp-gr.wpac a.wp-google-name{
+font-family: "Noto Sans JP", Sans-serif !important;
+    color: #0e282b !important;
+    font-weight: 600 !IMPORTANT;
+    font-size: 16px !important;
+    line-height: 21px !important;
+
+}
+
+
+.wp-gr .grw-review-inner.grw-round{
+font-family: "Noto Sans JP", Sans-serif !important;
+    color: #0e282b !important;
+    font-weight: 500 !IMPORTANT;
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
+
+
+.wp-gr .grw-review-inner.grw-round {
+    border-radius: 4px !important;
+    max-width: 25rem !important;
+    padding: 1.25rem !important;
+    border-radius: 1rem !important;
+    box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, .2) !important;
+    background: #fff !important;
+    margin: 20px !important;
+}
+
+.wp-gr .grw-review-inner>svg {
+    width: 38px !important;
+    height: 38px !important;
+}
+
+.wp-gr .grw-btns svg path {
+    fill: #ff8b61 !important;
+}
+
+@media(min-width:768px){
+.elementor-nav-menu li.menu-item:first-child .sub-menu, .elementor-nav-menu li.menu-item:nth-child(5) .sub-menu {
+	transform: translateX(-50px);
+}
+
+.sub-menu {
+	width: 250px !important;
+}
+.sub-menu a.elementor-sub-item {
+    white-space: normal;
+}
+.wp-gr .grw-btns {
+    height: 53px !important;
+    width: 53px !important;
+}
+}
+
+.wp-gr .rpi-dot.active {
+    background-color: #FF8B61 !important;
+    transform: scale(.9) !important;
+}
+
+.wp-gr .rpi-dot {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+.wp-gr .rpi-dot {
+
+    border: 1px solid black !important;
+    background-color: #ffffff !important;
+}
+
+.wp-gr .grw-reviews {
+    align-items: baseline;
+}
+
+@media(max-width:767px){
+	.free-form li.elementor-icon-list-item.elementor-inline-item {
+    width: 100%;
+    margin: 10px 0;
+}
+.wp-gr .grw-review-inner.grw-round {
+    margin: 5px !important;
+}
+.single-magazine iframe, .single-social-media-newslet iframe {
+    height: 300px !important;
+}
+}
+
+.wp-gr .grw-review .wp-google-left {
+    display: flex !important;
+    align-items: center;
+}
+
+.wp-gr .wp-google-time {
+    display: none;
+}
+
+/* MAGAZINE SINGLE */
+.single-magazine iframe, .single-social-media-newslet iframe {
+    height: 900px;
+}
+
+#elementor-popup-modal-2520 {
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: 100vh;
+   width: 100vw;
+   background-color: #0B1C1E;
+   z-index: 9999;
+   overflow-y: auto;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
