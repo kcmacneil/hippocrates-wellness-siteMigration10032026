@@ -52,3 +52,15 @@ global palette and fonts were reused in `styles/globals.css`.
 `tools/` contains the pipeline used once for this migration; keep the original
 backup zip unchanged. To regenerate `content/`, point the two scripts'
 `SRC`/`OUT` constants at the extracted backup and run them with Python 3.10+.
+
+## Live-site visual replication (added post-review)
+
+To duplicate the live site's Elementor design, rendered HTML was scraped from
+hippocrateswellness.org for all ~360 non-post pages (`content_live` field per doc)
+plus the shared header/footer templates (`content/live-chrome.json`), via
+`tools/scrape_live.py`. All referenced stylesheets and fonts are mirrored under
+`public/wp-content/` and `public/wp-includes/` at their original paths; per-page
+Elementor CSS (`post-<id>.css`) loads alongside each page. JS-driven features
+(popups, sliders, mega-menu) degrade to static markup; scroll-reveal animations
+are forced visible in `styles/globals.css`. Blog posts keep the DB-extracted
+content rendered in the site's typography.
