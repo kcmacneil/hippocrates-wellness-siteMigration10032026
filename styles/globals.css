@@ -407,3 +407,8 @@ body.hw-popup-open { overflow: hidden; }
   max-width: none;
   width: calc((100% - (var(--e-image-carousel-slides-to-show, 3) - 1) * var(--hw-gap)) / var(--e-image-carousel-slides-to-show, 3));
 }
+
+/* body.elementor-page-2560 (post category archive template) background */
+.cms-archive.elementor-page-2560 {
+  background-color: var(--e-global-color-8306182);
+}

@@ -23,6 +23,7 @@ every redirect resolves in a single hop.
 | `/healing-our-world-magazine/` | `/learning-centre/healing-our-world-magazine/` | 301 (matches live-site redirect) |
 | `/magazine/` | `/magazine/` | Rebuilt as archive index (was a CPT archive) |
 | `/meal-plans-recipes/` | `/meal-plans-recipes/` | Rebuilt as archive index |
+| `/category/<slug>/`, `/resort-category/<slug>/`, `/recipes-tag/<slug>/`, `/event-category/<slug>/` (+ `/page/N/`) | same | Taxonomy archives scraped from the live site into `content/archives/` (`tools/scrape_archives.py`) |
 | `/wp-content/uploads/...` | `/wp-content/uploads/...` | Media URLs preserved (served from `public/`) |
 
 ## 301 redirects migrated from the Redirection plugin
@@ -49,5 +50,5 @@ Off-site podcast redirects (153, `/<podcast-slug>/` → podbean) were added from
 | `/wp-content/uploads/2025/04/1743951674.mp4` (138 MB) | Same as above |
 | `/sample-page/` | Preserved (default WP page still in backup; can be deleted) |
 | Comment threads (`wp_comments`) | Not migrated — comments were not part of the rendered pages |
-| Author archives (`/author/…`), tag/date archives | Not rebuilt; Yoast listed them but they were thin archive pages |
+| Author archives (`/author/…`), date archives | Not rebuilt; Yoast listed them but they were thin archive pages |
 | RSS feed (`/feed/`) | Not implemented; can be added with a route handler if needed |
