@@ -33,6 +33,9 @@ preserved exactly, verified against the live sitemap index
 | `/genesis` | `/reproductive-wellness-education` | 301 |
 | `/root` | `/nervous-system-wellness-education` | 301 |
 
+Off-site podcast redirects (153, `/<podcast-slug>/` → podbean) were added from a live audit — see
+`docs/live-redirect-audit.md`.
+
 ## Exceptions
 
 | Old URL | Status |

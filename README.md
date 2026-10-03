@@ -60,5 +60,6 @@ every other branch gets a preview deployment. Details in `docs/deployment.md`.
 - `docs/wordpress-backup-inventory.md` — what was in the backup
 - `docs/wordpress-plugin-migration.md` — plugin → replacement table
 - `docs/url-migration-map.md` — old → new URL mapping
+- `docs/live-redirect-audit.md` — live-site redirect audit (podcast → podbean rules)
 - `docs/migration-notes.md` — decisions and known differences
 - `docs/deployment.md` — Vercel config, env vars, rollback
