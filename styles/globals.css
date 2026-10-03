@@ -366,6 +366,8 @@ body.hw-popup-open { overflow: hidden; }
 .related-recipes-grid:not(.slick-initialized) {
   display: flex;
   align-items: flex-start;
+  /* slick centres its track when there are fewer slides than slidesToShow. */
+  justify-content: safe center;
   overflow: hidden;
   margin-bottom: 30px;
 }
@@ -380,4 +382,22 @@ body.hw-popup-open { overflow: hidden; }
 }
 @media (max-width: 600px) {
   .related-recipes-grid:not(.slick-initialized) > * { flex-basis: 100%; }
+}
+
+/* Elementor image carousel without Swiper JS: apply its spaceBetween (exposed by
+   components/WpHtml.jsx) so slides keep the live width and gutter. */
+.elementor-image-carousel-wrapper:not(.swiper-initialized) {
+  --hw-gap: var(--hw-swiper-gap, 0px);
+}
+@media (max-width: 1024px) {
+  .elementor-image-carousel-wrapper:not(.swiper-initialized) { --hw-gap: var(--hw-swiper-gap-tablet, var(--hw-swiper-gap, 0px)); }
+}
+@media (max-width: 767px) {
+  .elementor-image-carousel-wrapper:not(.swiper-initialized) { --hw-gap: var(--hw-swiper-gap-mobile, var(--hw-swiper-gap-tablet, var(--hw-swiper-gap, 0px))); }
+}
+.elementor-image-carousel-wrapper:not(.swiper-initialized) .swiper-wrapper { gap: var(--hw-gap); }
+.elementor-image-carousel-wrapper:not(.swiper-initialized) .swiper-slide {
+  flex-shrink: 0;
+  max-width: none;
+  width: calc((100% - (var(--e-image-carousel-slides-to-show, 3) - 1) * var(--hw-gap)) / var(--e-image-carousel-slides-to-show, 3));
 }
