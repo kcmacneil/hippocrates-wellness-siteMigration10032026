@@ -355,3 +355,33 @@ body.hw-popup-open { overflow: hidden; }
 }
 .hw-popup .elementor-nav-menu .menu-item { white-space: normal; }
 .hw-popup .elementor-nav-menu .sub-menu a { font-size: 0.85em; padding: 0.45rem 1.5rem; text-align: center; }
+
+/* Live wp-custom-css: magazine/newsletter issuu embeds (selectors keyed off the
+   single-post block's post-type class instead of WP body classes). */
+.elementor-location-single.type-magazine iframe,
+.elementor-location-single.type-social-media-newslet iframe { height: 900px; }
+@media (max-width: 767px) {
+  .elementor-location-single.type-magazine iframe,
+  .elementor-location-single.type-social-media-newslet iframe { height: 300px !important; }
+}
+
+/* Recipe "Related Recipes" slick carousel (JS not shipped): first slides in a row,
+   4 / 3 / 1 per view as in the live init script. */
+.related-recipes-grid:not(.slick-initialized) {
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.related-recipes-grid:not(.slick-initialized) > * {
+  flex: 0 0 25%;
+  min-width: 0;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+@media (max-width: 1024px) {
+  .related-recipes-grid:not(.slick-initialized) > * { flex-basis: 33.3333%; }
+}
+@media (max-width: 600px) {
+  .related-recipes-grid:not(.slick-initialized) > * { flex-basis: 100%; }
+}
