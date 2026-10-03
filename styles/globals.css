@@ -130,6 +130,11 @@ main > .wp-content,
 }
 /* Live Elementor pages manage their own full-width layout. */
 article.live { padding: 0; }
+/* Live pages with nothing between header and footer. */
+main:has(.hw-bare-page:empty) { min-height: 0; }
+/* Standalone landing pages (no Elementor header/footer on the live site). */
+body:has(.hw-no-chrome) .site-chrome { display: none; }
+body:has(.hw-no-chrome) > main { min-height: 0; }
 /* Elementor sets scroll-triggered animations via JS we don't ship — reveal them. */
 .elementor-invisible { visibility: visible !important; opacity: 1 !important; }
 
@@ -185,6 +190,7 @@ article.live { padding: 0; }
 article.live .wp-content { max-width: none; margin: 0; padding: 0; }
 main > .wp-content:has(> .elementor) { max-width: none; margin: 0; padding: 0; }
 .page-header h1 { margin-top: 0.8em; }
+article.live .page-header h1 { margin-top: 0; }
 .post-meta { color: var(--color-muted); font-size: 0.9rem; }
 .featured-image { border-radius: 8px; margin: 1rem 0; }
 
