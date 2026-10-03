@@ -86,7 +86,7 @@ export default async function CmsPage({ params }) {
     const css = [
       ...(doc.type === 'post' ? POST_WIDGET_CSS : []),
       ...(doc.css_live || []),
-      postCssPath(doc.id),
+      postCssPath(doc.live_id || doc.id),
     ].filter((href, i, all) => href && all.indexOf(href) === i);
     return (
       <article className={`cms-${doc.type} live`}>
