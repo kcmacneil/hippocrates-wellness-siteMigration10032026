@@ -10,7 +10,7 @@ export const metadata = {
   metadataBase: new URL('https://hippocrateswellness.org'),
   title: {
     default: 'Hippocrates Wellness',
-    template: '%s | Hippocrates Wellness',
+    template: '%s - Hippocrates Wellness',
   },
   description:
     'The world-leading wellness retreat for optimal health and longevity. Nearly 70 years of groundbreaking expertise at our 55-acre Florida oasis.',

@@ -2,9 +2,15 @@ import WpHtml from '../components/WpHtml';
 import { getDoc, postCssPath } from '../lib/content';
 
 export const metadata = {
-  title: 'Hippocrates Wellness | Your path to optimal health',
+  title: { absolute: 'Wellness Retreat in Florida | Hippocrates Wellness' },
   description:
-    'Discover the secret to optimal health and wellness with the original pioneers of longevity. Stay with us at our 55-acre Florida oasis.',
+    'Discover Hippocrates Wellness in Florida: immersive wellness programs, living-food nutrition, holistic education, events and ongoing support for lasting lifestyle change.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Wellness Retreat in Florida | Hippocrates Wellness',
+    description:
+      'Discover Hippocrates Wellness in Florida: immersive wellness programs, living-food nutrition, holistic education, events and ongoing support for lasting lifestyle change.',
+  },
 };
 
 export default function HomePage() {

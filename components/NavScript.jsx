@@ -105,7 +105,7 @@ export default function NavScript() {
       if (button) button.disabled = true;
       let status = 'danger';
       try {
-        const res = await fetch('/api/contact', {
+        const res = await fetch('/api/contact/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formPayload(form)),
