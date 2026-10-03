@@ -8,8 +8,75 @@ export default function NavScript() {
       document.querySelectorAll('.hw-popup:not([hidden])').forEach((p) => { p.hidden = true; });
       document.body.classList.remove('hw-popup-open');
     };
-    const onKey = (e) => { if (e.key === 'Escape') closePopups(); };
+    // Live theme's hw-video-js: [data-hw-video] posters open the Vimeo player in a lightbox.
+    let lightbox = null;
+    let lightboxOpener = null;
+    const closeVideo = () => {
+      if (!lightbox) return;
+      lightbox.remove();
+      lightbox = null;
+      document.documentElement.style.overflow = '';
+      lightboxOpener?.focus();
+      lightboxOpener = null;
+    };
+    const openVideo = (url, opener) => {
+      if (!/^https:\/\//.test(url || '')) return;
+      closeVideo();
+      lightboxOpener = opener;
+      lightbox = document.createElement('div');
+      lightbox.className = 'hw-lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Video');
+      lightbox.innerHTML = '<div class="hw-lightbox__box"><button type="button" class="hw-lightbox__chiudi" aria-label="Close the video">&#10005;</button><div class="hw-lightbox__frame"></div></div>';
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.title = 'Video';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.allowFullscreen = true;
+      lightbox.querySelector('.hw-lightbox__frame').appendChild(iframe);
+      document.body.appendChild(lightbox);
+      document.documentElement.style.overflow = 'hidden';
+      lightbox.querySelector('.hw-lightbox__chiudi').focus();
+    };
+    // Live theme's hw-tst-js: [data-hw-scelta] list items switch the visible testimonial slot.
+    const showTestimonial = (group, index) => {
+      if (!group) return;
+      const items = group.querySelectorAll('.hw-tst__voce');
+      const slots = group.querySelectorAll('.hw-tst__slot');
+      items.forEach((item, i) => {
+        item.classList.toggle('is-on', i === index);
+        item.setAttribute('aria-current', i === index ? 'true' : 'false');
+        if (slots[i]) slots[i].hidden = i !== index;
+      });
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') { closeVideo(); closePopups(); return; }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const choice = e.target.closest?.('[data-hw-scelta]');
+      if (!choice) return;
+      const items = [...choice.closest('[data-hw-tst]').querySelectorAll('.hw-tst__voce')];
+      const i = items.indexOf(choice);
+      const next = (i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length;
+      showTestimonial(choice.closest('[data-hw-tst]'), next);
+      items[next].focus();
+      e.preventDefault();
+    };
     const onClick = (e) => {
+      const poster = e.target.closest('[data-hw-video]');
+      if (poster) {
+        openVideo(poster.getAttribute('data-hw-video'), poster);
+        return;
+      }
+      if (e.target.closest('.hw-lightbox__chiudi') || e.target.classList.contains('hw-lightbox')) {
+        closeVideo();
+        return;
+      }
+      const choice = e.target.closest('[data-hw-scelta]');
+      if (choice) {
+        showTestimonial(choice.closest('[data-hw-tst]'), Number(choice.getAttribute('data-hw-scelta')));
+        return;
+      }
       const opener = e.target.closest('a[href^="#popup-"]');
       if (opener) {
         const popup = document.getElementById(opener.getAttribute('href').slice(1));
@@ -144,6 +211,7 @@ export default function NavScript() {
       document.removeEventListener('click', onClick);
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('submit', onSubmit);
+      closeVideo();
     };
   }, []);
   return null;

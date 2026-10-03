@@ -26,6 +26,18 @@ export function generateStaticParams() {
   return allPaths().map((p) => ({ slug: p.split('/') }));
 }
 
+// Yoast title templates the export left unexpanded (e.g. 'X | %%sitename%%').
+const expandYoast = (text, doc) =>
+  text?.includes('%%')
+    ? text
+        .replace(/%%sitename%%/g, 'Hippocrates Wellness')
+        .replace(/%%title%%/g, doc.title)
+        .replace(/%%sep%%/g, '-')
+        .replace(/%%\w+%%/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+    : text;
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const path = slug.join('/');
@@ -35,12 +47,14 @@ export async function generateMetadata({ params }) {
     if (arch) return { title: arch.title };
     return {};
   }
+  const seoTitle = expandYoast(doc.seoTitle, doc);
+  const absolute = doc.seoTitleAbsolute || (seoTitle !== doc.seoTitle ? seoTitle : null);
   return {
-    title: doc.seoTitleAbsolute ? { absolute: doc.seoTitleAbsolute } : doc.seoTitle || doc.title,
+    title: absolute ? { absolute } : seoTitle || doc.title,
     description: doc.seoDesc || doc.excerpt || undefined,
     alternates: doc.canonical ? { canonical: doc.canonical } : undefined,
     openGraph: {
-      title: doc.ogTitle || doc.seoTitle || doc.title,
+      title: doc.ogTitle || seoTitle || doc.title,
       description: doc.ogDesc || doc.seoDesc || undefined,
       images: doc.image ? [{ url: doc.image }] : undefined,
     },
