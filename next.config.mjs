@@ -20,6 +20,8 @@ const legacyAliases = [
   { source: '/healing-our-world-magazine', destination: '/learning-centre/healing-our-world-magazine/', permanent: true },
 ];
 
+const landingPages = ['the-life-transformation-program'];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
@@ -33,6 +35,16 @@ const nextConfig = {
         statusCode: Number(r.code) || 301,
       })),
     ];
+  },
+  async rewrites() {
+    return {
+      // Standalone live landing pages (own <head>, CSS and scripts; no site chrome),
+      // mirrored verbatim by tools/scrape_landing.py.
+      beforeFiles: landingPages.map((slug) => ({
+        source: `/${slug}/`,
+        destination: `/hw-landing/${slug}.html`,
+      })),
+    };
   },
   async headers() {
     return [
