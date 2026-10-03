@@ -1,0 +1,227 @@
+/*
+Theme Name: Hello Elementor Child
+Theme URI: https://elementor.com/hello-theme/?utm_source=wp-themes&utm_campaign=theme-uri&utm_medium=wp-dash
+Template: hello-elementor
+Author: Elementor Team
+Author URI: https://elementor.com/?utm_source=wp-themes&utm_campaign=author-uri&utm_medium=wp-dash
+Description: Hello Elementor is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the Elementor site builder plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website. The theme, which is optimized for performance, provides a solid foundation for users to build their own unique designs using the Elementor drag-and-drop site builder. Its simplicity and flexibility make it a great choice for both beginners and experienced Web Creators.
+Tags: accessibility-ready,flexible-header,custom-colors,custom-menu,custom-logo,featured-images,rtl-language-support,threaded-comments,translation-ready
+Version: 3.3.0.1744701157
+Updated: 2025-04-15 07:12:37
+
+*/
+
+
+
+
+.resort-grid {
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+    justify-content:start;
+    align-content:center;
+    
+}
+
+.resort-card {
+    width:31%;
+}
+
+.resort-grid strong.card-date {
+    font-size: 13.6px;
+    font-family: "Noto Serif JP", serif;
+    color: #627375;
+    display: block;
+    line-height: 20.4px;
+}
+
+.resort-grid p.card-description {
+     margin: 15px 0;
+    font-family: "Noto Sans JP", Sans-serif !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 22.6px;
+    color: #0E282B;
+}
+
+.card-footer 
+ a.btn-text, .event_google a, .event_ical a {
+    position:relative;
+    transition: 0.5s ease all;
+    font-family: 'Noto Serif JP', serif;
+    border-bottom: 2px solid #ff8b61;
+    padding: 6px 0;
+    font-weight: 700;
+	 font-size: 14px;
+}
+
+
+a.card-title {color: #0E282B;font-size: 21.6px;font-family: 'Noto Serif JP', serif;font-weight: 800;line-height: 28.08px;}
+
+
+.resort-month-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resort-month-filter .select-container {width: 70%;position:relative;}
+
+select#Filter_month {
+    padding: 12px 58px 12px 15px;
+    font-family: 'Noto Serif JP', serif;
+    background: #d9d9d9;
+    appearance: none;
+    border-radius: 50px !important;
+    border: none;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px;
+}
+
+
+.select-container span.icon.icon-arrow-down {
+     position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 37px;
+    height: 37px;
+    padding-top: 11px;
+    border-radius: 50px;
+    background: #ff8b61;
+    color: #102e33;
+    text-align: center;
+}
+
+.select-container .icon-arrow-down:before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+     /* Adjust color as needed */
+    transform: rotate(-45deg); /* Optional spacing */
+    background: transparent !important;
+    position: absolute;
+    left: 30%;
+}
+
+
+
+.card-footer a.btn-text:before,  .event_google a:before, .event_ical a:before {
+    transition: right 0.3s ease;
+     content: "";
+     display: block;
+     width: 6px;
+     height: 6px;
+     border-left: 2px solid black;
+     border-bottom: 2px solid black;
+     /* Adjust color as needed */
+     transform: rotate(223deg); /* Optional spacing */
+     background: transparent !important;
+     position: absolute;
+     right: -15px;
+     top: 15px;
+     }
+
+.card-footer a.btn-text:hover:before ,  .event_google a:hover:before, .event_ical a:hover:before {
+    right: -25px;
+}
+
+
+label.select-label {
+    font-size: 14.8px;
+    font-weight: 500;
+    line-height: 1.15em;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    line-height: 1.15em;
+    color: #0e282b;
+    color: #0e282b;
+}
+
+
+
+/* evnet single */
+ul.event_detail_list {
+    padding: 0;
+    list-style: none;
+}
+
+.ul.event_detail_list li {
+    list-style: none !important;
+}
+
+ul.event_detail_list label {
+    margin-bottom: 6px;
+    font-weight: 900;
+    font-family: 'Noto Serif JP';
+}
+
+.event_detail_list li {
+    padding: 4px 0;
+}
+
+.event_detail_list li p {
+    color: black;
+    font-family: 'Noto Sans JP';
+    font-weight: 400;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+a.rsvp_btnn {
+    background: rgb(255, 139, 97);
+    color: rgb(14, 40, 43);
+    font-family: 'Noto Sans JP';
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 2px solid rgb(14, 40, 43);
+    padding: 15px 30px;
+    border-radius: 50px;
+}
+li.rscp_wrapp {
+    margin: 20px 0 25px 0;
+}
+
+
+.event_detail_list li div {
+    margin: 0 0 13px 0;
+}
+
+.right_col_event {
+    height: fit-content;
+}
+
+
+
+
+@media (max-width: 767px){
+    
+    .resort-month-filter {
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+}
+
+.resort-month-filter .select-container {
+    width: 100%;
+}
+
+.resort-grid {
+    flex-direction: column;
+}
+
+.resort-card {
+    width: 100%;
+}
+}
+
+@media (min-width: 768px) and (max-width:1023px){
+    
+.resort-card {
+    width: 30%;
+}
+
+}

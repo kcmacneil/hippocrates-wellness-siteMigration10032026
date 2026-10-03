@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import WpHtml from '../../components/WpHtml';
 import ContactForm from '../../components/ContactForm';
-import { allPaths, getDoc, getIndex } from '../../lib/content';
+import { allPaths, getDoc, getIndex, postCssPath } from '../../lib/content';
 
 export const dynamicParams = false;
 
@@ -76,6 +76,19 @@ export default async function CmsPage({ params }) {
       </article>
     );
   }
+  // Pages rebuilt from the live site's rendered Elementor markup ship their
+  // own full layout (headings, hero, sections) — render verbatim + its CSS.
+  if (doc.content_live) {
+    const css = postCssPath(doc.id);
+    return (
+      <article className={`cms-${doc.type} live`}>
+        {css && <link rel="stylesheet" href={css} />}
+        <WpHtml html={doc.content_live} />
+        {path === 'contact-us' && <ContactForm />}
+        {LIST_AFTER[path] && <PostIndex collection={LIST_AFTER[path]} />}
+      </article>
+    );
+  }
   const cats = doc.terms?.category || [];
   return (
     <article className={`cms-${doc.type}`}>
@@ -96,7 +109,7 @@ export default async function CmsPage({ params }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img className="featured-image" src={doc.image} alt={doc.title} />
       )}
-      <WpHtml html={doc.content} />
+      <WpHtml html={doc.content || ''} />
       {path === 'contact-us' && <ContactForm />}
       {LIST_AFTER[path] && <PostIndex collection={LIST_AFTER[path]} />}
     </article>

@@ -1,5 +1,5 @@
 import WpHtml from '../components/WpHtml';
-import { getDoc } from '../lib/content';
+import { getDoc, postCssPath } from '../lib/content';
 
 export const metadata = {
   title: 'Hippocrates Wellness | Your path to optimal health',
@@ -10,10 +10,13 @@ export const metadata = {
 export default function HomePage() {
   const doc = getDoc('home-2') || getDoc('home');
   if (!doc) return null;
+  const html = doc.content_live || doc.content || '';
+  const css = doc.content_live ? postCssPath(doc.id) : null;
   return (
     <>
       <h1 className="visually-hidden">{doc.title}</h1>
-      <WpHtml html={doc.content} />
+      {css && <link rel="stylesheet" href={css} />}
+      <WpHtml html={html} />
     </>
   );
 }

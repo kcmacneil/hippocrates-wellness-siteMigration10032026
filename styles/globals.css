@@ -121,22 +121,29 @@ main { min-height: 60vh; }
 }
 
 /* ---------- Content ---------- */
-main > article,
-.wp-content,
+main > article:not(.live),
+article:not(.live) .wp-content,
+main > .wp-content,
 .post-index {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 1rem 1.2rem 3rem;
 }
+/* Live Elementor pages manage their own full-width layout. */
+article.live { padding: 0; }
+/* Elementor sets scroll-triggered animations via JS we don't ship — reveal them. */
+.elementor-invisible { visibility: visible !important; opacity: 1 !important; }
+article.live .wp-content { max-width: none; margin: 0; padding: 0; }
+main > .wp-content:has(> .elementor) { max-width: none; margin: 0; padding: 0; }
 .page-header h1 { margin-top: 0.8em; }
 .post-meta { color: var(--color-muted); font-size: 0.9rem; }
 .featured-image { border-radius: 8px; margin: 1rem 0; }
 
-.wp-content figure { margin: 1rem 0; }
-.wp-content a[href^="#"] { color: var(--color-primary); }
-.wp-content svg { fill: currentColor; max-width: 1em; height: auto; }
-.wp-content a > svg { margin-right: 0.4em; }
-.wp-content iframe { max-width: 100%; }
+article:not(.live) .wp-content figure { margin: 1rem 0; }
+article:not(.live) .wp-content a[href^="#"] { color: var(--color-primary); }
+article:not(.live) .wp-content svg { fill: currentColor; max-width: 1em; height: auto; }
+article:not(.live) .wp-content a > svg { margin-right: 0.4em; }
+article:not(.live) .wp-content iframe { max-width: 100%; }
 
 /* ---------- Post index ---------- */
 .post-index {
