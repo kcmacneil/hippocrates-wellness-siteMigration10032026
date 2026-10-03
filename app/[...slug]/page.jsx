@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
     return {};
   }
   return {
-    title: doc.seoTitle || doc.title,
+    title: doc.seoTitleAbsolute ? { absolute: doc.seoTitleAbsolute } : doc.seoTitle || doc.title,
     description: doc.seoDesc || doc.excerpt || undefined,
     alternates: doc.canonical ? { canonical: doc.canonical } : undefined,
     openGraph: {
@@ -89,7 +89,9 @@ export default async function CmsPage({ params }) {
       postCssPath(doc.live_id || doc.id),
     ].filter((href, i, all) => href && all.indexOf(href) === i);
     return (
-      <article className={`cms-${doc.type} live`}>
+      // Archive templates style body.elementor-page-<template>; the shared
+      // <body> can't carry it, so the class goes here (see globals.css).
+      <article className={`cms-${doc.type} live${doc.type === 'archive' && doc.template_id ? ` elementor-page-${doc.template_id}` : ''}`}>
         {css.map((href) => <link key={href} rel="stylesheet" href={href} />)}
         <WpHtml html={doc.content_live} />
         {path === 'contact-us' && <ContactForm />}
