@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-// Minimal stand-in for the Elementor menu JS we don't ship.
+// Minimal stand-in for the Elementor menu/form JS we don't ship.
 export default function NavScript() {
   useEffect(() => {
     const closePopups = () => {
@@ -62,6 +62,67 @@ export default function NavScript() {
         }
       }
     };
+    // Elementor Pro forms (kept from the live markup) post to /api/contact, with
+    // Elementor's default in-place success/error messages.
+    const FORM_MESSAGES = {
+      success: 'Your submission was successful.',
+      danger: 'Your submission failed because of an error.',
+    };
+    const fieldLabel = (form, el) => {
+      const own = el.id && form.querySelector(`label[for="${el.id}"]`);
+      const group = el.closest('.elementor-field-group')?.querySelector('.elementor-field-label');
+      const text = (el.type === 'checkbox' || el.type === 'radio') ? (group || own) : (own || group);
+      return (text?.textContent || el.placeholder || el.name).replace(/\*/g, '').trim();
+    };
+    const formPayload = (form) => {
+      const fields = new Map();
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        if (!el.name || ['submit', 'button', 'hidden'].includes(el.type)) return;
+        if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+        const value = el.value.trim();
+        if (!value) return;
+        const key = el.name.replace(/^form_fields\[([^\]]*)\].*$/, '$1');
+        const f = fields.get(key) || { label: fieldLabel(form, el), type: el.type, values: [] };
+        f.values.push(el.tagName === 'SELECT' ? el.selectedOptions[0].text.trim() : value);
+        fields.set(key, f);
+      });
+      const pick = (test) => [...fields].filter(([k, f]) => test(k, f)).map(([, f]) => f.values.join(', '));
+      return {
+        name: pick((k) => /name/i.test(k)).join(' '),
+        email: pick((k, f) => f.type === 'email' || /email/i.test(k))[0] || '',
+        subject: `${form.getAttribute('name') || 'Enquiry'} – ${document.title}`,
+        message: [...fields.values()].map((f) => `${f.label}: ${f.values.join(', ')}`).join('\n'),
+      };
+    };
+    const onSubmit = async (e) => {
+      const form = e.target.closest?.('form.elementor-form');
+      if (!form) return;
+      e.preventDefault();
+      if (form.classList.contains('elementor-form-waiting')) return;
+      form.querySelectorAll('.elementor-message').forEach((m) => m.remove());
+      form.classList.add('elementor-form-waiting');
+      const button = form.querySelector('[type="submit"]');
+      if (button) button.disabled = true;
+      let status = 'danger';
+      try {
+        const res = await fetch('/api/contact/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formPayload(form)),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (res.ok && body.ok) status = 'success';
+      } catch { /* network error: show the error message */ }
+      form.classList.remove('elementor-form-waiting');
+      if (button) button.disabled = false;
+      if (status === 'success') form.reset();
+      const msg = document.createElement('div');
+      // Live runs Elementor's inline-SVG icon mode: success gets the SVG check, not the eicons glyph.
+      msg.className = `elementor-message elementor-message-${status}${status === 'success' ? ' elementor-message-svg' : ''}`;
+      msg.setAttribute('role', 'alert');
+      msg.textContent = FORM_MESSAGES[status];
+      form.appendChild(msg);
+    };
     // Full-width mega-menu panels, as Elementor's JS does via --stretch-* vars.
     const stretch = () => {
       const width = document.documentElement.clientWidth;
@@ -77,10 +138,12 @@ export default function NavScript() {
     window.addEventListener('resize', stretch);
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', onKey);
+    document.addEventListener('submit', onSubmit);
     return () => {
       window.removeEventListener('resize', stretch);
       document.removeEventListener('click', onClick);
       document.removeEventListener('keydown', onKey);
+      document.removeEventListener('submit', onSubmit);
     };
   }, []);
   return null;

@@ -5,6 +5,11 @@ post types were flat `/<slug>/` URLs and pages were hierarchical. Both are
 preserved exactly, verified against the live sitemap index
 (`https://hippocrateswellness.org/sitemap_index.xml`).
 
+Next.js runs with `trailingSlash: true`, so canonical URLs end in `/` exactly as
+on WordPress; a slash-less request gets a 308 to the `/` form. Same-site redirect
+targets are normalised to the slashed form in `next.config.mjs` (`withSlash`), so
+every redirect resolves in a single hop.
+
 ## Rules
 
 | Old URL | New URL | Status |
@@ -32,6 +37,9 @@ preserved exactly, verified against the live sitemap index
 | `/restoration` | `/immune-resilience-education` | 301 |
 | `/genesis` | `/reproductive-wellness-education` | 301 |
 | `/root` | `/nervous-system-wellness-education` | 301 |
+
+Off-site podcast redirects (153, `/<podcast-slug>/` → podbean) were added from a live audit — see
+`docs/live-redirect-audit.md`.
 
 ## Exceptions
 

@@ -9,3 +9,5 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 __pycache__/
+tools/scrape_posts_failures.json
+tools/scrape_cpts_failures.json

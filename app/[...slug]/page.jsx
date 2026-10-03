@@ -12,6 +12,10 @@ const ARCHIVES = {
   'meal-plans-recipes': { collection: 'recipes', title: 'Meal Plans & Recipes' },
 };
 
+// Widget stylesheets the live single-post template (Elementor 10424) needs
+// beyond the site-wide set in app/layout.jsx.
+const POST_WIDGET_CSS = ['/wp-content/plugins/elementor-pro/assets/css/widget-author-box.min.css'];
+
 // Pages whose archive listing gets appended after their content
 const LIST_AFTER = {
   'learning-centre/blog': 'posts',
@@ -79,10 +83,14 @@ export default async function CmsPage({ params }) {
   // Pages rebuilt from the live site's rendered Elementor markup ship their
   // own full layout (headings, hero, sections) — render verbatim + its CSS.
   if (doc.content_live) {
-    const css = postCssPath(doc.id);
+    const css = [
+      ...(doc.type === 'post' ? POST_WIDGET_CSS : []),
+      ...(doc.css_live || []),
+      postCssPath(doc.live_id || doc.id),
+    ].filter((href, i, all) => href && all.indexOf(href) === i);
     return (
       <article className={`cms-${doc.type} live`}>
-        {css && <link rel="stylesheet" href={css} />}
+        {css.map((href) => <link key={href} rel="stylesheet" href={href} />)}
         <WpHtml html={doc.content_live} />
         {path === 'contact-us' && <ContactForm />}
         {LIST_AFTER[path] && <PostIndex collection={LIST_AFTER[path]} />}
