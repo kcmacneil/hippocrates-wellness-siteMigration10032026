@@ -347,3 +347,5 @@ body.hw-popup-open { overflow: hidden; }
   border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
   transform: translateY(-0.2em) rotate(45deg);
 }
+.hw-popup .elementor-nav-menu .menu-item { white-space: normal; }
+.hw-popup .elementor-nav-menu .sub-menu a { font-size: 0.85em; padding: 0.45rem 1.5rem; text-align: center; }
