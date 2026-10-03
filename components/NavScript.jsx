@@ -117,7 +117,8 @@ export default function NavScript() {
       if (button) button.disabled = false;
       if (status === 'success') form.reset();
       const msg = document.createElement('div');
-      msg.className = `elementor-message elementor-message-${status}`;
+      // Live runs Elementor's inline-SVG icon mode: success gets the SVG check, not the eicons glyph.
+      msg.className = `elementor-message elementor-message-${status}${status === 'success' ? ' elementor-message-svg' : ''}`;
       msg.setAttribute('role', 'alert');
       msg.textContent = FORM_MESSAGES[status];
       form.appendChild(msg);
