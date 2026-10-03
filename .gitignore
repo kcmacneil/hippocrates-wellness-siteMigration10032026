@@ -10,3 +10,4 @@ npm-debug.log*
 Thumbs.db
 __pycache__/
 tools/scrape_posts_failures.json
+tools/scrape_cpts_failures.json
