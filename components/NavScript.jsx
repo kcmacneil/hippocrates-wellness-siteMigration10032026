@@ -8,6 +8,11 @@ export default function NavScript() {
       document.querySelectorAll('.hw-popup:not([hidden])').forEach((p) => { p.hidden = true; });
       document.body.classList.remove('hw-popup-open');
     };
+    // Elementor's nav-menu JS un-hides the dropdown nav for assistive tech when it is shown.
+    const exposeDropdown = (nav, shown) => {
+      nav.setAttribute('aria-hidden', String(!shown));
+      nav.querySelectorAll('a').forEach((a) => (shown ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
+    };
     // Live theme's hw-video-js: [data-hw-video] posters open the Vimeo player in a lightbox.
     let lightbox = null;
     let lightboxOpener = null;
@@ -83,6 +88,7 @@ export default function NavScript() {
         if (popup) {
           e.preventDefault();
           popup.hidden = false;
+          popup.querySelectorAll('nav.elementor-nav-menu--dropdown').forEach((nav) => exposeDropdown(nav, true));
           document.body.classList.add('hw-popup-open');
           return;
         }
@@ -117,8 +123,12 @@ export default function NavScript() {
       const toggle = e.target.closest('.elementor-menu-toggle');
       if (toggle) {
         const nav = toggle.parentElement?.querySelector('.elementor-nav-menu--dropdown, nav');
-        toggle.classList.toggle('elementor-active');
-        if (nav) nav.classList.toggle('menu-open');
+        const open = toggle.classList.toggle('elementor-active');
+        toggle.setAttribute('aria-expanded', String(open));
+        if (nav) {
+          nav.classList.toggle('menu-open', open);
+          exposeDropdown(nav, open);
+        }
       }
       const item = e.target.closest('.menu-item-has-children > a');
       if (item && window.innerWidth <= 1024) {
