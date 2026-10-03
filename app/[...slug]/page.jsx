@@ -14,8 +14,8 @@ const ARCHIVES = {
 
 // Pages whose archive listing gets appended after their content
 const LIST_AFTER = {
-  blog: 'posts',
-  podcast: 'podcasts',
+  'learning-centre/blog': 'posts',
+  'learning-centre/podcast': 'podcasts',
 };
 
 export function generateStaticParams() {

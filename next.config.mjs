@@ -10,6 +10,10 @@ const legacyAliases = [
   // Front page used to be reachable at /home and /home-2 in old templates
   { source: '/home', destination: '/', permanent: true },
   { source: '/home-2', destination: '/', permanent: true },
+  // Old flat archive URLs redirect to the Learning Centre hierarchy (as on the live site)
+  { source: '/blog', destination: '/learning-centre/blog', permanent: true },
+  { source: '/podcast', destination: '/learning-centre/podcast', permanent: true },
+  { source: '/healing-our-world-magazine', destination: '/learning-centre/healing-our-world-magazine', permanent: true },
 ];
 
 /** @type {import('next').NextConfig} */
